@@ -11,7 +11,7 @@ import { Component } from "react";
 import Loader from "./Loader";
 
 
-export default class RegisterScreen extends Component{
+export default class LoginScreen extends Component{
     state = {
         username:"",
         password:""
@@ -43,7 +43,6 @@ export default class RegisterScreen extends Component{
                       </LinearGradient>
                   </TouchableOpacity>
                     </View>
-                
                 </View>
             );
         };
