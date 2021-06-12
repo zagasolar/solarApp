@@ -14,11 +14,11 @@ class Loader extends React.Component {
             };
     
     // componentDidMount(){}
-    componentDidMount(prevProps,prevState) {
+    componentDidUpdate() {
         if(this.props.isActive)
         { 
-            Animated.timing(this.state.top,{ toValue: 0, duration:0}).start();
-            Animated.timing(this.state.opacity,{ toValue: 1}).start();
+            Animated.timing(this.state.top, { toValue: 0, duration:0}).start();
+            Animated.timing(this.state.opacity, { toValue: 1}).start();
             this.animation.play();
         }
         else{
@@ -26,7 +26,7 @@ class Loader extends React.Component {
             Animated.timing(this.state.opacity,{ toValue: 0}).start();
         }
     }
-
+    
     render(){
         return (
             <AnimatedContainer style={{top: this.state.top,opacity:this.state.opacity}} >

@@ -4,25 +4,36 @@ import {
     Text,
     StyleSheet,
     TouchableOpacity,
-    TextInput
+    TextInput,
+    ActivityIndicator
 } from "react-native";
 import {LinearGradient} from "expo-linear-gradient";
-import { Component } from "react";
 import Loader from "./Loader";
 
 
-export default class LoginScreen extends Component{
+const LoginScreen = ({}) => {
+
     state = {
         username:"",
-        password:""
+        password:"",
     }
     
     handlelogin = () => {
         console.log("email:",this.state.username);
         console.log("password:",this.state.password);
     }
-    
-    render() {
+
+    const [isLoading, setIsLoading] = React.useState(true);
+    const [userToken, setUserToken] = React.useState(null);
+
+            if(isLoading)
+            {
+                return(
+                    <View style={[styles.icon, styles.horizontal]}>
+                        <ActivityIndicator animating={true} size='large' color="#FDB813"/>
+                    </View>
+                );
+            }
             return(
                 <View style={styles.container}>
                     <View>
@@ -43,12 +54,11 @@ export default class LoginScreen extends Component{
                       </LinearGradient>
                   </TouchableOpacity>
                     </View>
-                   <Loader isActive={true}/>
+                   {/* <Loader isActive={this.state.isLoading}/> */}
                 </View>
             );
         };
-    }
-
+export default LoginScreen;
 
 const styles = StyleSheet.create({
     container: {
@@ -101,6 +111,12 @@ const styles = StyleSheet.create({
     },
     Input2 : {
         paddingLeft:10
+    },
+    icon: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems:'center',
+        opacity:1
     }
     
 
