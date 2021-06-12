@@ -43,6 +43,7 @@ export default class LoginScreen extends Component{
                       </LinearGradient>
                   </TouchableOpacity>
                     </View>
+                   <Loader isActive={true}/>
                 </View>
             );
         };

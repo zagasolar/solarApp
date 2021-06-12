@@ -3,7 +3,7 @@ import "react-native-gesture-handler";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import SplashScreen from "./Screens/Splashscreen";
-import signInScreen from "./Screens/signInScreen";
+// import signInScreen from "./Screens/signInScreen";
 import LoginScreen from "./Screens/LoginScreen";
 import "react-native-screens";
 
