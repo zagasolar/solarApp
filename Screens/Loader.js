@@ -8,28 +8,51 @@ const screenHeight = Dimensions.get("window").height;
 
 class Loader extends React.Component {
             state = {
-                top: new Animated.Value(0),
+                scaleY: new Animated.Value(0),
                 opacity: new Animated.Value(0),
                 
             };
-    
+
     // componentDidMount(){}
-    componentDidUpdate() {
+    componentDidMount() {
+        console.log('acive' , this.props.isActive);
         if(this.props.isActive)
         { 
-            Animated.timing(this.state.top, { toValue: 0, duration:0}).start();
-            Animated.timing(this.state.opacity, { toValue: 1}).start();
+            console.log('acive1' , this.props.isActive);
+            Animated.timing(this.state.scaleY, { toValue: 1, duration:0 , useNativeDriver: true}).start();
+            console.log('acive2' , this.props.isActive);
+
+            Animated.timing(this.state.opacity,{ toValue: 1,  useNativeDriver: true}).start();
+            console.log('acive3' , this.props.isActive);
+
             this.animation.play();
+            console.log('acive5' , this.props.isActive);
+
         }
         else{
-            Animated.timing(this.state.top,{toValue:screenHeight,duration:0}).start();
-            Animated.timing(this.state.opacity,{ toValue: 0}).start();
+            console.log('acive6' , this.props.isActive);
+            Animated.timing(this.state.scaleY,{toValue:0,duration:0 , useNativeDriver: true}).start();
+            console.log('acive7' , this.props.isActive);
+            Animated.timing(this.state.opacity,{ toValue: 0 , useNativeDriver: true}).start();
+            console.log('acive8' , this.props.isActive);
         }
+        console.log('complete' , this.props.isActive)
     }
+    //     if(this.props.isActive)
+    //     { 
+    //         Animated.timing(this.state.top, { toValue: 0, duration:0, useNativeDriver:true}).start();
+    //         Animated.timing(this.state.opacity, { toValue: 1, useNativeDriver:true}).start();
+    //         this.animation.play();
+    //     }
+    //     else{
+    //         Animated.timing(this.state.top,{toValue:screenHeight,duration:0, useNativeDriver:true}).start();
+    //         Animated.timing(this.state.opacity,{ toValue: 0, useNativeDriver:true}).start();
+    //     }
+    // }
     
     render(){
         return (
-            <AnimatedContainer style={{top: this.state.top,opacity:this.state.opacity}} >
+            <AnimatedContainer style={{scaleY : this.state.scaleY,opacity:this.state.opacity}} >
                 <LottieView  source={require("../assets/43174-sunny-cloud.json")}
                 autoPlay
                 loop

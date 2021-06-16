@@ -16,24 +16,27 @@ const LoginScreen = ({}) => {
     state = {
         username:"",
         password:"",
+        
+
     }
     
     handlelogin = () => {
         console.log("email:",this.state.username);
         console.log("password:",this.state.password);
+        // this.state.isActive = false;
     }
 
-    const [isLoading, setIsLoading] = React.useState(true);
-    const [userToken, setUserToken] = React.useState(null);
+    // const [isLoading, setIsLoading] = React.useState(true);
+    // const [userToken, setUserToken] = React.useState(null);
 
-            if(isLoading)
-            {
-                return(
-                    <View style={[styles.icon, styles.horizontal]}>
-                        <ActivityIndicator animating={true} size='large' color="#FDB813"/>
-                    </View>
-                );
-            }
+            // if(isLoading)
+            // {
+            //     return(
+            //         <View style={[styles.icon, styles.horizontal]}>
+            //             <ActivityIndicator animating={true} size='large' color="#FDB813"/>
+            //         </View>
+            //     );
+            // }
             return(
                 <View style={styles.container}>
                     <View>
@@ -54,7 +57,7 @@ const LoginScreen = ({}) => {
                       </LinearGradient>
                   </TouchableOpacity>
                     </View>
-                   {/* <Loader isActive={this.state.isLoading}/> */}
+                   <Loader isActive={false}/>
                 </View>
             );
         };
@@ -112,12 +115,12 @@ const styles = StyleSheet.create({
     Input2 : {
         paddingLeft:10
     },
-    icon: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems:'center',
-        opacity:1
-    }
+    // icon: {
+    //     flex: 1,
+    //     justifyContent: "center",
+    //     alignItems:'center',
+    //     opacity:1
+    // }
     
 
 })
