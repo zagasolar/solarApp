@@ -1,67 +1,99 @@
-import * as React  from "react";
-import {
-    View,
-    Text,
-    StyleSheet,
-    TouchableOpacity,
-    TextInput,
-    ActivityIndicator
-} from "react-native";
+import React from 'react'
+import { StyleSheet, Text, View ,TextInput,TouchableOpacity,Alert, ActivityIndicator} from 'react-native'
 import {LinearGradient} from "expo-linear-gradient";
-import Loader from "./Loader";
+import Axios from 'axios'
+export default function LoginScreen() {
+    const [userName , setUserName] = React.useState('')
+    const [passWord , setPassWord] = React.useState('')
+    const [usernameError , setUsernameError] = React.useState('')
+    const [passwordError , setPasswordError] = React.useState('')
+    const handlelogin = () => {
+        if ( userName.length==0 && passWord.length==0 ) {
+            setUsernameError('Invalid User')
+            setPasswordError('Invalid password')
+            setTimeout(() => {
+                setUsernameError('')
+                setPasswordError('')
+            }, 3000);
+        } else {
+            usernameValidation()
+        }   
+    }
 
+    const usernameValidation = () => {
+        if(userName.length ==0 )
+        {
+            setUsernameError('User Name Invalid')
+            setTimeout(() => {
+                setUsernameError('')
+            }, 3000);
+        }
+        else
+        { 
+            passwordValidation()
+        }
+    }
+    const passwordValidation = () => {
+        if(passWord.length ==0 )
+        {
+            setPasswordError('Invalid Password')
+            setTimeout(() => {
+                setPasswordError('')
+            }, 3000);
+        }
+        else
+        {
+            userPasswordValidation()
+        } 
+    }
 
-const LoginScreen = ({}) => {
-
-    state = {
-        username:"",
-        password:"",
-        
-
+    const userPasswordValidation = () => {
+        Axios.post('http://localhost:3030/get',{
+            username : userName,
+            password : passWord
+        }).then(function(response){
+            if(response.data == 'correct password'){
+                alert('valid user from backend')
+            }
+            else{
+                setPasswordError('Invalid username or password')
+                setTimeout(() => {
+                    setPasswordError('')
+                }, 3000);
+            }
+        })
     }
     
-    handlelogin = () => {
-        console.log("email:",this.state.username);
-        console.log("password:",this.state.password);
-        // this.state.isActive = false;
-    }
 
-    // const [isLoading, setIsLoading] = React.useState(true);
-    // const [userToken, setUserToken] = React.useState(null);
 
-            // if(isLoading)
-            // {
-            //     return(
-            //         <View style={[styles.icon, styles.horizontal]}>
-            //             <ActivityIndicator animating={true} size='large' color="#FDB813"/>
-            //         </View>
-            //     );
-            // }
-            return(
-                <View style={styles.container}>
+    return (
+        <View style={styles.container}>
                     <View>
                         <Text style={styles.text}>ZAGA LOGIN</Text>
                     </View>
                     <View style={styles.Inputbox1}>
                         <TextInput style={styles.Input1} placeholder="Username" keyboardType="email-address" 
-                        onChangeText={(username) => {this.setState({username:username})}}/>
+                        value={userName}
+                        onChangeText={(text) => setUserName(text)}/>
                     </View>
+                    <View><Text>{usernameError}</Text></View>
                     <View style={styles.Inputbox2}>
-                        <TextInput style={styles.Input2} placeholder="Password" enablesReturnKeyAutomatically={true} secureTextEntry={true}
-                        onChangeText={(password) => {this.setState({password:password})}}/>
+                        <TextInput style={styles.Input2} placeholder="Password" secureTextEntry={true}
+                        value={passWord}
+                        onChangeText={text=>setPassWord(text)}/>
                     </View>
+                    <View><Text>{passwordError}</Text></View>
                     <View style={styles.button}>
-                    <TouchableOpacity onPress={this.handlelogin}>
+                    <TouchableOpacity onPress={handlelogin}>
                       <LinearGradient style={styles.gradient1} colors={['#56ab2f', '#56ab2f', '#a8e069']}>
                           <Text style={styles.login}>LOGIN</Text>
                       </LinearGradient>
                   </TouchableOpacity>
                     </View>
-                   <Loader isActive={false}/>
+                   
                 </View>
-            );
-        };
-export default LoginScreen;
+    )
+}
 
 const styles = StyleSheet.create({
     container: {
@@ -115,12 +147,13 @@ const styles = StyleSheet.create({
     Input2 : {
         paddingLeft:10
     },
-    // icon: {
-    //     flex: 1,
-    //     justifyContent: "center",
-    //     alignItems:'center',
-    //     opacity:1
-    // }
+    icon: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems:'center',
+        opacity:1
+    }
     
 
 })
+
