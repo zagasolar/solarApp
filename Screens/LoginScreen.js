@@ -1,8 +1,15 @@
-import React from 'react'
-import { StyleSheet, Text, View ,TextInput,TouchableOpacity,Alert, ActivityIndicator} from 'react-native'
-import {LinearGradient} from "expo-linear-gradient";
+import React from "react";
+
+import styles from "./style";
+import {Keyboard, Text, View, TextInput, TouchableWithoutFeedback, Alert, KeyboardAvoidingView} from 'react-native';
+import { Button } from 'react-native-elements';
 import Axios from 'axios'
-export default function LoginScreen() {
+import MainScreen from "./MainScreen";
+
+
+const appId = "1047121222092614";
+
+export default function LoginScreen({navigation}) {
     const [userName , setUserName] = React.useState('')
     const [passWord , setPassWord] = React.useState('')
     const [usernameError , setUsernameError] = React.useState('')
@@ -48,12 +55,13 @@ export default function LoginScreen() {
     }
 
     const userPasswordValidation = () => {
-        Axios.post('http://localhost:3030/get',{
+        Axios.post('http://10.0.2.2:3030/get',{
             username : userName,
             password : passWord
         }).then(function(response){
             if(response.data == 'correct password'){
-                alert('valid user from backend')
+                // console.log("I am WorKing")
+                navigation.navigate(MainScreen)
             }
             else{
                 setPasswordError('Invalid username or password')
@@ -64,96 +72,51 @@ export default function LoginScreen() {
         })
     }
     
-
+    // async function onFbLoginPress() {
+    //     const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync(appId, {
+    //       permissions: ['public_profile', 'email'],
+    //     })
+    //     if (type === 'success') {
+    //       const response = await fetch(
+    //         `https://graph.facebook.com/me?access_token=${token}`);
+    //       Alert.alert(
+    //         'Logged in!',
+    //         `Hi ${(await response.json()).name}!`,
+    //       )
+    //     }
+    //   }
+      
 
     return (
-        <View style={styles.container}>
-                    <View>
-                        <Text style={styles.text}>ZAGA LOGIN</Text>
-                    </View>
-                    <View style={styles.Inputbox1}>
-                        <TextInput style={styles.Input1} placeholder="Username" keyboardType="email-address" 
-                        value={userName}
-                        onChangeText={(text) => setUserName(text)}/>
-                    </View>
+        <KeyboardAvoidingView style={styles.containerView} behavior="padding">
+
+         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <View style={styles.loginScreenContainer}>
+                <Text style={styles.logoText}>ZAGA Solar App</Text>
+                {/* username */} 
+                <TextInput placeholder="Username" placeholderColor="#c4c3cb" style={styles.loginFormTextInput} keyboardType="email-address" 
+                    value={userName} onChangeText={(text) => setUserName(text)} />
                     <View><Text>{usernameError}</Text></View>
-                    <View style={styles.Inputbox2}>
-                        <TextInput style={styles.Input2} placeholder="Password" secureTextEntry={true}
-                        value={passWord}
-                        onChangeText={text=>setPassWord(text)}/>
-                    </View>
+                {/* password */}
+                <TextInput placeholder="Password" placeholderColor="#c4c3cb" style={styles.loginFormTextInput} secureTextEntry={true}
+                    value={passWord}
+                    onChangeText={text=>setPassWord(text)} />
                     <View><Text>{passwordError}</Text></View>
-                    <View style={styles.button}>
-                    <TouchableOpacity onPress={handlelogin}>
-                      <LinearGradient style={styles.gradient1} colors={['#56ab2f', '#56ab2f', '#a8e069']}>
-                          <Text style={styles.login}>LOGIN</Text>
-                      </LinearGradient>
-                  </TouchableOpacity>
-                    </View>
-                   
-                </View>
-    )
-}
-
-const styles = StyleSheet.create({
-    container: {
-        flex:1,
-        flexDirection:'column'
-    },  
-    text: {
-        paddingTop:70,
-        fontWeight:'600',
-        textAlign:'center',
-        fontSize:40,
-        color:'#000',
-    },
-    gradient1:{
-        marginTop:40,
-        width:200,
-        height:50,
-        alignItems:'center',
-        justifyContent:'center',
-        borderRadius:40
-    },
-    login: {
-        fontSize:20,
-        fontWeight:'700',
-        color:'white'
-    },
-    button : {
-        alignItems:'center'
-    },
-    //Input styles
-    Inputbox1 : {
-        marginTop:50,
-        marginBottom:20,
-        width:230,
-        height:30,
-        marginLeft:80,
-        borderBottomWidth:1
-        
-    },
-    Inputbox2 : {
-        marginTop:30,
-        marginBottom:20,
-        width:230,
-        height:30,
-        marginLeft:80,
-        borderBottomWidth:1
-    },
-    Input1 : {
-        paddingLeft:10
-    },
-    Input2 : {
-        paddingLeft:10
-    },
-    icon: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems:'center',
-        opacity:1
+                <Button
+                    buttonStyle={styles.loginButton}
+                    onPress={handlelogin}
+                    title="Login"
+                />
+           
+            <Button
+              buttonStyle={styles.fbLoginButton}
+              
+              title="Login with Facebook"
+              color="#3897f1"
+            />
+        </View>
+        </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
+     )
     }
-    
-
-})
 
